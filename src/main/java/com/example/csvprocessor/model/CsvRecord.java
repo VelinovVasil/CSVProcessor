@@ -136,5 +136,4 @@ public class CsvRecord {
     @CsvBindByName(column = "labels")
     private String labels;
 
-
 }
