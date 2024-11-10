@@ -41,4 +41,66 @@ public class CsvProcessingServiceImpl implements CsvProcessingService {
     public List<CsvRecord> searchByLabelAndCountry(String labelKey, String labelValue, Optional<String> country, int pageSize, int pageNumber) {
         return null;
     }
+
+
+
+    @Override
+    public List<CsvRecord> searchByLabelAndCountry(Optional<String> labelKeyValue,
+                                                   Optional<String> country,
+                                                   int pageNumber,
+                                                   int pageSize) {
+
+
+        Stream<CsvRecord> records = this.csvReader.readCsv();
+
+
+        if (country.isPresent()) {
+            records = records.filter(r -> country.get().equals(r.getLocationCountry()));
+        }
+
+
+        if (labelKeyValue.isPresent()) {
+            String[] keyValue = labelKeyValue.get().split(":");
+
+            if (keyValue.length == 2) {
+                String key = keyValue[0];
+                String value = keyValue[1];
+
+                records = records.filter(r -> {
+                    try {
+                        String labelsJson = r.getLabels();
+
+                        // ToDo: figure out why the injected ObjectMapper dependency does not work
+                        ObjectMapper objectMapper = new ObjectMapper();
+                        JsonNode labelsNode = objectMapper.readTree(labelsJson);
+
+                        JsonNode teamNode = labelsNode.get(key);
+                        if (teamNode != null && teamNode.isArray()) {
+                            for (JsonNode valueNode : teamNode) {
+                                if (valueNode.asText().equals(value)) {
+                                    return true;
+                                }
+                            }
+                        }
+
+                        return false;
+                    } catch (JsonProcessingException e) {
+                        System.err.println("Error deserializing labels: " + e.getMessage());
+                        return false;
+                    }
+                });
+            }
+        }
+
+        int skip = (pageNumber - 1) * pageSize;
+
+        List<CsvRecord> paginatedResults = records
+                .skip(skip)
+                .limit(pageSize)
+                .collect(Collectors.toList());
+
+        return paginatedResults;
+    }
+
+
 }
