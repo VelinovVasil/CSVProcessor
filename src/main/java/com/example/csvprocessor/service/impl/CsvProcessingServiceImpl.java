@@ -73,8 +73,8 @@ public class CsvProcessingServiceImpl implements CsvProcessingService {
     @Override
     public List<CsvRecord> searchByLabelAndCountry(Optional<String> labelKeyValue,
                                                    Optional<String> country,
-                                                   int pageNumber,
-                                                   int pageSize) {
+                                                   int pageSize,
+                                                   int pageNumber) {
 
         Stream<CsvRecord> records = this.csvReader.getCachedRecords().parallelStream();
 

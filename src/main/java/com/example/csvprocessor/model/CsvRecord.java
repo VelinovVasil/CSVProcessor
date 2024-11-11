@@ -2,19 +2,12 @@ package com.example.csvprocessor.model;
 
 import com.example.csvprocessor.util.BigDecimalConverter;
 import com.example.csvprocessor.util.LocalDateTimeConverter;
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.core.type.TypeReference;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import com.opencsv.bean.CsvBindByName;
 import com.opencsv.bean.CsvCustomBindByName;
-import jakarta.annotation.PostConstruct;
 import lombok.*;
-import org.springframework.beans.factory.annotation.Autowired;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
-import java.util.List;
-import java.util.Map;
 
 @Getter
 @Setter
