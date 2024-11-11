@@ -51,7 +51,7 @@ public class CsvProcessingServiceTotalCostTest {
         record2.setLocationCountry("FI");
 
         csvData = Stream.of(record1, record2);
-        when(mockCsvReader.readCsv()).thenReturn(csvData);
+        when(mockCsvReader.getCachedRecords().parallelStream()).thenReturn(csvData);
     }
 
     @Test

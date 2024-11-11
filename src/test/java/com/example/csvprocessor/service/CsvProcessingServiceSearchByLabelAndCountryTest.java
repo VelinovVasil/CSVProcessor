@@ -80,7 +80,7 @@ public class CsvProcessingServiceSearchByLabelAndCountryTest {
         int pageNumber = 1;
         int pageSize = 2;
 
-        when(mockCsvReader.readCsv()).thenReturn(Stream.of(record1, record2, record3));
+        when(mockCsvReader.getCachedRecords().parallelStream()).thenReturn(Stream.of(record1, record2, record3));
         when(mockObjectMapper.readValue(anyString(), eq(Map.class))).thenReturn(Map.of("team", List.of("zetta")));
 
         List<CsvRecord> result = csvProcessingService.searchByLabelAndCountry(labelKeyValue, country, pageNumber, pageSize);
@@ -91,7 +91,7 @@ public class CsvProcessingServiceSearchByLabelAndCountryTest {
         labelKeyValue = Optional.of("team:zettahost");
         country = Optional.empty();
 
-        when(mockCsvReader.readCsv()).thenReturn(Stream.of(record1, record2, record3));
+        when(mockCsvReader.getCachedRecords().parallelStream()).thenReturn(Stream.of(record1, record2, record3));
         when(mockObjectMapper.readValue(anyString(), eq(Map.class))).thenReturn(Map.of("team", List.of("zettahost")));
 
         result = csvProcessingService.searchByLabelAndCountry(labelKeyValue, country, pageNumber, pageSize);
@@ -108,7 +108,7 @@ public class CsvProcessingServiceSearchByLabelAndCountryTest {
         int pageNumber = 1;
         int pageSize = 2;
 
-        when(mockCsvReader.readCsv()).thenReturn(Stream.of(record1, record2, record3));
+        when(mockCsvReader.getCachedRecords().parallelStream()).thenReturn(Stream.of(record1, record2, record3));
         when(mockObjectMapper.readValue(anyString(), eq(Map.class))).thenReturn(Map.of("team", List.of("zetta")));
 
         List<CsvRecord> result = csvProcessingService.searchByLabelAndCountry(labelKeyValue, country, pageNumber, pageSize);
@@ -122,7 +122,7 @@ public class CsvProcessingServiceSearchByLabelAndCountryTest {
         int pageNumber = 1;
         int pageSize = 2;
 
-        when(mockCsvReader.readCsv()).thenReturn(Stream.of(record1, record2, record3));
+        when(mockCsvReader.getCachedRecords().parallelStream()).thenReturn(Stream.of(record1, record2, record3));
         when(mockObjectMapper.readValue(anyString(), eq(Map.class))).thenReturn(Map.of("team", List.of("zettahost")));
 
         List<CsvRecord> result = csvProcessingService.searchByLabelAndCountry(labelKeyValue, country, pageNumber, pageSize);
@@ -137,7 +137,7 @@ public class CsvProcessingServiceSearchByLabelAndCountryTest {
         int pageNumber = 1;
         int pageSize = 1;
 
-        when(mockCsvReader.readCsv()).thenAnswer(invocation -> Stream.of(record1, record2, record3));
+        when(mockCsvReader.getCachedRecords().parallelStream()).thenAnswer(invocation -> Stream.of(record1, record2, record3));
         when(mockObjectMapper.readValue(anyString(), eq(Map.class))).thenReturn(Map.of("team", List.of("zetta")));
 
         List<CsvRecord> result = csvProcessingService.searchByLabelAndCountry(labelKeyValue, country, pageNumber, pageSize);
@@ -156,7 +156,6 @@ public class CsvProcessingServiceSearchByLabelAndCountryTest {
         assertTrue(resultItem.getLabels().contains("zetta"));
     }
 
-
     @Test
     public void testSearchByLabelAndCountryWithNoResults() throws JsonProcessingException {
 
@@ -165,7 +164,7 @@ public class CsvProcessingServiceSearchByLabelAndCountryTest {
         int pageNumber = 1;
         int pageSize = 2;
 
-        when(mockCsvReader.readCsv()).thenReturn(Stream.of(record1, record2, record3));
+        when(mockCsvReader.getCachedRecords().parallelStream()).thenReturn(Stream.of(record1, record2, record3));
         when(mockObjectMapper.readValue(anyString(), eq(Map.class))).thenReturn(Map.of("team", List.of("zetta")));
 
         List<CsvRecord> result = csvProcessingService.searchByLabelAndCountry(labelKeyValue, country, pageNumber, pageSize);
