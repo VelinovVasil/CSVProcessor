@@ -11,6 +11,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
+import java.util.List;
 import java.util.Optional;
 import java.util.stream.Stream;
 
@@ -50,8 +51,8 @@ public class CsvProcessingServiceTotalCostTest {
         record2.setUsageStartTime(LocalDateTime.of(2024, 4, 23, 3, 0));
         record2.setLocationCountry("FI");
 
-        csvData = Stream.of(record1, record2);
-        when(mockCsvReader.getCachedRecords().parallelStream()).thenReturn(csvData);
+        List<CsvRecord> csvData = List.of(record1, record2);
+        when(mockCsvReader.getCachedRecords()).thenReturn(csvData);
     }
 
     @Test

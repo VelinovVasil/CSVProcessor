@@ -18,8 +18,7 @@ public class CsvReader {
 
     private List<CsvRecord> cachedRecords = new ArrayList<>();
 
-    // @Value("${csv.file.path}")
-    private String filePath = "src/main/resources/static/costs_export.csv";
+    private static final String FILE_PATH = "src/main/resources/static/costs_export.csv";
 
     @PostConstruct
     private void init() {
@@ -27,7 +26,7 @@ public class CsvReader {
     }
 
     private void loadCsvData() {
-        try (BufferedReader bufferedReader = new BufferedReader(new FileReader(filePath))) {
+        try (BufferedReader bufferedReader = new BufferedReader(new FileReader(FILE_PATH))) {
             CsvToBean<CsvRecord> csvToBean = new CsvToBeanBuilder<CsvRecord>(bufferedReader)
                     .withType(CsvRecord.class)
                     .withIgnoreLeadingWhiteSpace(true)

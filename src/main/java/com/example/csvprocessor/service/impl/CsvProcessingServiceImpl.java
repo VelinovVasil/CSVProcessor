@@ -36,8 +36,8 @@ public class CsvProcessingServiceImpl implements CsvProcessingService {
         return this.csvReader.getCachedRecords().parallelStream()
                 .filter(r -> startTime.map(st -> isValidUsageStartTime(r) && r.getUsageStartTime().isAfter(st)).orElse(true))
                 .filter(r -> endTime.map(et -> isValidUsageStartTime(r) && r.getUsageStartTime().isBefore(et)).orElse(true))
-                .filter(r -> location.map(loc -> loc != null && loc.equals(r.getLocationCountry())).orElse(true))
-                .filter(r -> skuId.map(id -> id != null && id.equals(r.getSkuId())).orElse(true))
+                .filter(r -> location.map(loc -> isValidLocationCountry(r) && loc.equals(r.getLocationCountry())).orElse(true))
+                .filter(r -> skuId.map(id -> isValidSkuId(r) && id.equals(r.getSkuId())).orElse(true))
                 .map(r -> r.getCost())
                 .reduce(BigDecimal.ZERO, BigDecimal::add);
     }

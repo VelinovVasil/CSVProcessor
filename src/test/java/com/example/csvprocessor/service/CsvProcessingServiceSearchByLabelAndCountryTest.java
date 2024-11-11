@@ -16,7 +16,6 @@ import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
-import java.util.stream.Stream;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
@@ -39,6 +38,7 @@ public class CsvProcessingServiceSearchByLabelAndCountryTest {
     private CsvRecord record1;
     private CsvRecord record2;
     private CsvRecord record3;
+    private List<CsvRecord> csvData;
 
     @BeforeEach
     public void setUp() {
@@ -71,34 +71,9 @@ public class CsvProcessingServiceSearchByLabelAndCountryTest {
         record3.setUsageStartTime(LocalDateTime.of(2024, 1, 2, 0, 0));
         record3.setLocationCountry("US");
         record3.setLabels("{\"team\": [\"zetta\"]}");
-    }
 
-    @Test
-    public void testSearchByLabelAndCountryWithOptionalFilters() throws JsonProcessingException {
-        Optional<String> labelKeyValue = Optional.empty();
-        Optional<String> country = Optional.of("BG");
-        int pageNumber = 1;
-        int pageSize = 2;
-
-        when(mockCsvReader.getCachedRecords().parallelStream()).thenReturn(Stream.of(record1, record2, record3));
-        when(mockObjectMapper.readValue(anyString(), eq(Map.class))).thenReturn(Map.of("team", List.of("zetta")));
-
-        List<CsvRecord> result = csvProcessingService.searchByLabelAndCountry(labelKeyValue, country, pageNumber, pageSize);
-        assertEquals(1, result.size());
-        CsvRecord resultItem = result.get(0);
-        assertEquals("BG", resultItem.getLocationCountry());
-
-        labelKeyValue = Optional.of("team:zettahost");
-        country = Optional.empty();
-
-        when(mockCsvReader.getCachedRecords().parallelStream()).thenReturn(Stream.of(record1, record2, record3));
-        when(mockObjectMapper.readValue(anyString(), eq(Map.class))).thenReturn(Map.of("team", List.of("zettahost")));
-
-        result = csvProcessingService.searchByLabelAndCountry(labelKeyValue, country, pageNumber, pageSize);
-        assertEquals(1, result.size());
-        resultItem = result.get(0);
-        assertTrue(resultItem.getLabels().contains("team"));
-        assertTrue(resultItem.getLabels().contains("zettahost"));
+        csvData = List.of(record1, record2, record3);
+        when(mockCsvReader.getCachedRecords()).thenReturn(csvData);
     }
 
     @Test
@@ -108,7 +83,6 @@ public class CsvProcessingServiceSearchByLabelAndCountryTest {
         int pageNumber = 1;
         int pageSize = 2;
 
-        when(mockCsvReader.getCachedRecords().parallelStream()).thenReturn(Stream.of(record1, record2, record3));
         when(mockObjectMapper.readValue(anyString(), eq(Map.class))).thenReturn(Map.of("team", List.of("zetta")));
 
         List<CsvRecord> result = csvProcessingService.searchByLabelAndCountry(labelKeyValue, country, pageNumber, pageSize);
@@ -122,7 +96,6 @@ public class CsvProcessingServiceSearchByLabelAndCountryTest {
         int pageNumber = 1;
         int pageSize = 2;
 
-        when(mockCsvReader.getCachedRecords().parallelStream()).thenReturn(Stream.of(record1, record2, record3));
         when(mockObjectMapper.readValue(anyString(), eq(Map.class))).thenReturn(Map.of("team", List.of("zettahost")));
 
         List<CsvRecord> result = csvProcessingService.searchByLabelAndCountry(labelKeyValue, country, pageNumber, pageSize);
@@ -131,13 +104,11 @@ public class CsvProcessingServiceSearchByLabelAndCountryTest {
 
     @Test
     public void testSearchByLabelAndCountryWithPagination() throws JsonProcessingException {
-
         Optional<String> labelKeyValue = Optional.of("team:zetta");
         Optional<String> country = Optional.of("US");
         int pageNumber = 1;
         int pageSize = 1;
 
-        when(mockCsvReader.getCachedRecords().parallelStream()).thenAnswer(invocation -> Stream.of(record1, record2, record3));
         when(mockObjectMapper.readValue(anyString(), eq(Map.class))).thenReturn(Map.of("team", List.of("zetta")));
 
         List<CsvRecord> result = csvProcessingService.searchByLabelAndCountry(labelKeyValue, country, pageNumber, pageSize);
@@ -158,13 +129,11 @@ public class CsvProcessingServiceSearchByLabelAndCountryTest {
 
     @Test
     public void testSearchByLabelAndCountryWithNoResults() throws JsonProcessingException {
-
         Optional<String> labelKeyValue = Optional.of("team:nonexistent");
         Optional<String> country = Optional.of("CN");
         int pageNumber = 1;
         int pageSize = 2;
 
-        when(mockCsvReader.getCachedRecords().parallelStream()).thenReturn(Stream.of(record1, record2, record3));
         when(mockObjectMapper.readValue(anyString(), eq(Map.class))).thenReturn(Map.of("team", List.of("zetta")));
 
         List<CsvRecord> result = csvProcessingService.searchByLabelAndCountry(labelKeyValue, country, pageNumber, pageSize);
