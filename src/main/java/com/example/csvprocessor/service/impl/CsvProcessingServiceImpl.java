@@ -7,6 +7,7 @@ import com.example.csvprocessor.util.CsvReader;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
@@ -21,15 +22,12 @@ import java.util.stream.Stream;
 import static com.example.csvprocessor.util.CsvRecordValidator.*;
 
 @Service
+@RequiredArgsConstructor
 public class CsvProcessingServiceImpl implements CsvProcessingService {
 
     private final CsvReader csvReader;
 
     private static final ObjectMapper objectMapper = new ObjectMapper();
-
-    public CsvProcessingServiceImpl(CsvReader csvReader) {
-        this.csvReader = csvReader;
-    }
 
     @Override
     public BigDecimal calculateTotalCost(Optional<LocalDateTime> startTime, Optional<LocalDateTime> endTime, Optional<String> location, Optional<String> skuId) {

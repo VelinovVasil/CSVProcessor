@@ -3,6 +3,7 @@ package com.example.csvprocessor.controller;
 import com.example.csvprocessor.dto.GroupedCostResult;
 import com.example.csvprocessor.model.CsvRecord;
 import com.example.csvprocessor.service.CsvProcessingService;
+import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -16,14 +17,10 @@ import java.util.Optional;
 
 @RestController
 @RequestMapping("/api/csv")
+@RequiredArgsConstructor
 public class CsvProcessingController {
 
     private final CsvProcessingService csvProcessingService;
-
-
-    public CsvProcessingController(CsvProcessingService csvProcessingService) {
-        this.csvProcessingService = csvProcessingService;
-    }
 
     @GetMapping("/total-cost")
     public ResponseEntity<BigDecimal> getTotalCost(
