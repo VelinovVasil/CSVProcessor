@@ -25,7 +25,7 @@ Method: GET
 Parameters:  
 startTime (optional): Filter by start time. Time is sent in the format: `yyyy-mm-ddThh:mm:ss`.  
 endTime (optional): Filter by end time. Time is sent in the format: `yyyy-mm-ddThh:mm:ss`.  
-location (optional): Filter by location.  
+location (optional): Filter by location country.  
 skuId (optional): Filter by SKU ID.  
 Description: Calculates the total cost based on the specified parameters.  
 ### Grouped Cost
