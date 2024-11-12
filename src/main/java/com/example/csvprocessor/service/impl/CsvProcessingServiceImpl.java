@@ -105,7 +105,6 @@ public class CsvProcessingServiceImpl implements CsvProcessingService {
 
                         return false;
                     } catch (JsonProcessingException e) {
-                        System.err.println("Error deserializing labels: " + e.getMessage());
                         return false;
                     }
                 });

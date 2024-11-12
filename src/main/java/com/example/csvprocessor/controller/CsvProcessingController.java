@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
+import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
 
@@ -49,6 +50,10 @@ public class CsvProcessingController {
             @RequestParam Optional<String> country,
             @RequestParam int pageSize,
             @RequestParam int pageNumber) {
+
+        if (pageNumber < 0 || pageSize <= 0) {
+            return ResponseEntity.badRequest().body(Collections.emptyList());
+        }
 
         List<CsvRecord> results = csvProcessingService.searchByLabelAndCountry(labelKeyValue, country, pageSize, pageNumber);
         return ResponseEntity.ok(results);
