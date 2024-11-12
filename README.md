@@ -40,7 +40,7 @@ Description: Returns the total cost grouped by the specified criteria. Each of t
 Endpoint: `/api/csv/search`
 Method: GET  
 Parameters:  
-labelKeyValue (optional): Search by label key-value pair.  
+labelKeyValue (optional): Search by label key-value pair. The pair must be in the format: `key:value`  
 country (optional): Filter by country.  
 pageSize: Number of results per page.  
 pageNumber: Page number for paginated results.  
